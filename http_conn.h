@@ -37,7 +37,7 @@ public:
         CHECK_STATE_CONTENT:当前正在解析请求体
     */
 
-    enum CHECK_STATE { CHECK_STATE_REQUSETLINE = 0, CHECK_STATE_HEADER, CHECK_STATE_CONTENT};
+    enum CHECK_STATE { CHECK_STATE_REQUESTLINE = 0, CHECK_STATE_HEADER, CHECK_STATE_CONTENT};
 
      /*
         服务器处理HTTP请求的可能结果，报文解析的结果
@@ -64,8 +64,8 @@ public:
     void init(int sockfd, const sockaddr_in& addr); //初始化新接受的连接
     void close_conn();  //关闭连接
     void process(); //处理客户端请求
-    void read(); //非阻塞读
-    void write(); //非阻塞写
+    bool read(); //非阻塞读
+    bool write(); //非阻塞写
 
 private:
     void init(); //初始化连接
