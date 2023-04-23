@@ -20,7 +20,7 @@ const char* error_500_title = "Internal Error";
 const char* error_500_form = "There was an unusual problem serving the requested file.\n";
 
 // 网站的根目录
-const char* doc_root = "/home/nan/myWebserver";
+const char* doc_root = "/home/nan/myWebserver/resources";
 
 int setnonblocking(int fd){
     int old_option = fcntl(fd, F_GETFL);
@@ -226,6 +226,15 @@ http_conn::HTTP_CODE http_conn::parse_headers(char* text) {
         m_host = text;
     } else {
         printf( "oop! unknow header %s\n", text );
+    }
+    return NO_REQUEST;
+}
+// 我们没有真正解析HTTP请求的消息体，只是判断它是否被完整的读入了
+http_conn::HTTP_CODE http_conn::parse_content( char* text ) {
+    if ( m_read_idx >= ( m_content_length + m_checked_idx ) )
+    {
+        text[ m_content_length ] = '\0';
+        return GET_REQUEST;
     }
     return NO_REQUEST;
 }
